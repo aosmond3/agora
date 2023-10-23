@@ -15,29 +15,22 @@ function Login () {
     const handleLogIn = (e) => {
         e.preventDefault(); // prevents the form from being submitted (i.e. the page from rerendering and state being lost)
 
-        // axios({
-        //     method: "GET",
-        //     url:"/api/users",
-        // })
-        // .then((response) => {
-        //     const res = response.data;
-        //     console.log(res);
-        // }).catch((error) => {
-        // if (error.response) {
-        //     console.log(error.response);
-        //     console.log(error.response.status);
-        //     console.log(error.response.headers);
-        //     }
-        // });
-
-        axios.post(
-            "https://jsonplaceholder.typicode.com/users",
-            {
+        axios({
+            method: "post",
+            url: "/api/login",
+            data: {
                 username: "Kschwam",
                 password: "Dog",
-            })
-        .then((response) => console.log(response.data))
-        .catch((err) => console.log(err));
+            },
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+            .then(function (response) {
+              //handle success
+              console.log(response.data);
+            }).catch(function (response) {
+              //handle error
+              console.log(response);
+            });
     }
 
     return (
