@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Login.css';
 
@@ -11,6 +12,8 @@ function Login () {
     const handleUsernameInput = (e) => setUsername(e.target.value);
     const handlePasswordInput = (e) => setPassword(e.target.value);
 
+    const navigate = useNavigate();
+
 
     const handleLogIn = (e) => {
         e.preventDefault(); // prevents the form from being submitted (i.e. the page from rerendering and state being lost)
@@ -19,14 +22,18 @@ function Login () {
             method: "post",
             url: "/api/login",
             data: {
-                username: "Kschwam",
-                password: "Dog",
+                username: username,
+                password: password,
             },
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(function (response) {
               //handle success
               console.log(response.data);
+              if (response.data['Status'] === 'succ') {
+                navigate('/path');
+              }
+
             }).catch(function (response) {
               //handle error
               console.log(response);
