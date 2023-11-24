@@ -32,7 +32,7 @@ function Login () {
               //handle success
               console.log(response.data);
               if (response.data['status'] === 'success') {
-                navigate(HOME_PATH);
+                navigate(HOME_PATH, {state: {username:username}});
               }
 
             }).catch(function (response) {
