@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Login.css';
+import { HOME_PATH } from '../../constants';
 
 axios.defaults.baseURL = "http://localhost:8000";
 
@@ -30,8 +31,8 @@ function Login () {
             .then(function (response) {
               //handle success
               console.log(response.data);
-              if (response.data['Status'] === 'succ') {
-                navigate('/path');
+              if (response.data['status'] === 'success') {
+                navigate(HOME_PATH);
               }
 
             }).catch(function (response) {
