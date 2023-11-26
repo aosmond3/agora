@@ -11,19 +11,19 @@ axios.defaults.baseURL = "http://localhost:8000";
 
 function Home () {
     const [username, setUsername] = useState("");
+    const [groups, setGroups] = useState([]);
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const DisplayGroups = () => {
-        useEffect(() => {
-            try {
-                setUsername(location.state.username);
-            } catch (error) {
-                console.log("You arrived at this page without logging in you sneaky cat; you are now being banished to the login page");
-                navigate(LOGIN_PATH)
-            }
-        });
+    useEffect(() => {
+        try {
+            setUsername(location.state.username);
+            console.log("setting username internal variable");
+        } catch (error) {
+            console.log("You arrived at this page without logging in you sneaky cat; you are now being banished to the login page");
+            navigate(LOGIN_PATH);
+        }
 
         axios({
             method: "get",
@@ -34,23 +34,22 @@ function Home () {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(function (response) {
-              //handle success
-              const groups = response.data["group_ids"]
-              console.log(groups); // TODO: left off here, need to display this list of groups
-
+                //handle success
+                setGroups(response.data["group_ids"]);
+                console.log("successfully retrieved groups for user");
             }).catch(function (response) {
-              //handle error
-              console.log(response);
-            });
+                //handle error
+                console.log(response);
+        });
 
-
-        return (
-            <h1>You are now logged in {username}!</h1>
-        );
-    }
+    }, [location.state.username, username, navigate]);
 
     return (
-        <DisplayGroups />
+        <div>
+            {groups?.map((group, index) => (
+                <li key={index}>{group}</li>
+            ))}
+        </div>
     );
 }
 
